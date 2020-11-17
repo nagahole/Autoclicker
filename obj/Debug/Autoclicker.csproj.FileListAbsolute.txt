@@ -1,0 +1,34 @@
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csprojAssemblyReference.cache
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\MainWindow.g.cs
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\App.g.cs
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker_MarkupCompile.cache
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker_MarkupCompile.lref
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\bin\Debug\Autoclicker.exe.config
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\bin\Debug\Autoclicker.exe
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\bin\Debug\Autoclicker.pdb
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\MainWindow.baml
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.g.resources
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.Properties.Resources.resources
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.GenerateResource.cache
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CoreCompileInputs.cache
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.exe
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.pdb
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\bin\Debug\Gma.System.MouseKeyHook.dll
+C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CopyComplete
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csprojAssemblyReference.cache
+C:\Code\Autoclicker\Autoclicker\obj\Debug\MainWindow.g.cs
+C:\Code\Autoclicker\Autoclicker\obj\Debug\App.g.cs
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker_MarkupCompile.cache
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker_MarkupCompile.lref
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.exe
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.pdb
+C:\Code\Autoclicker\Autoclicker\bin\Debug\Autoclicker.exe.config
+C:\Code\Autoclicker\Autoclicker\bin\Debug\Autoclicker.exe
+C:\Code\Autoclicker\Autoclicker\bin\Debug\Autoclicker.pdb
+C:\Code\Autoclicker\Autoclicker\bin\Debug\Gma.System.MouseKeyHook.dll
+C:\Code\Autoclicker\Autoclicker\obj\Debug\MainWindow.baml
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.g.resources
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.Properties.Resources.resources
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.GenerateResource.cache
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CoreCompileInputs.cache
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CopyComplete
