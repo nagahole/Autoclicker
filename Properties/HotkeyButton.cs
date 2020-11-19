@@ -93,7 +93,7 @@ namespace Autoclicker.Properties {
         }
 
         private void ListenForKeyDown(object sender, KeyEventArgs e) {
-            if ((DateTime.Now - lastSet).Milliseconds < 10) {
+            if ((DateTime.Now - lastSet).TotalMilliseconds < 5) {
                 return;
             }
             if(hotkeyType == HotkeyType.key && e.KeyCode == key && listeningToButton == null) {
@@ -103,10 +103,12 @@ namespace Autoclicker.Properties {
         }
 
         private void ListenForMouseClick(object sender, MouseEventArgs e) {
-            if ((DateTime.Now - lastSet).Milliseconds < 10) {
+            if ((DateTime.Now - lastSet).TotalMilliseconds < 5) {
                 return;
             }
+
             if (hotkeyType == HotkeyType.mouseButton && e.Button == mouseButton && listeningToButton == null) {
+                
                 HotkeyPressedEventArgs ev = new HotkeyPressedEventArgs();
                 OnHotkeyPressed(ev);
             }

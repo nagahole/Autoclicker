@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Autoclicker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="255" Width="550" ResizeMode="CanMinimize"
+        Title="MainWindow" Height="270" Width="550" ResizeMode="CanMinimize"
         SizeToContent="WidthAndHeight"
         Background="#1f2833">
     <Grid>
-        <Button Name="LMBButton"  BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="LMB_ChangeHotkey_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="59">
+        <Button Name="ToggleAdvancedSettingsButton" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="ToggleAdvancedSettingsButton_Click"  VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="15" Margin="0,0,-1,0">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF1E1F23"/>
+                    <Setter Property="Background" Value="#FF2E3036"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type Button}">
@@ -24,28 +24,56 @@
                     </Setter>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FF292A2E"/>
+                            <Setter Property="Background" Value="#FF33353C"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <TextBlock Name="AdvancedSettingsToggleSymbol" TextAlignment="Center" HorizontalAlignment="Center" Foreground="Gray" VerticalAlignment="Top" Height="17" Margin="267,-1,267,0" RenderTransformOrigin="0.5,0.5" Width="10">
+            <TextBlock.RenderTransform>
+                <RotateTransform Angle="0"/>
+            </TextBlock.RenderTransform>⥥</TextBlock>
+
+        <Button Name="LMBButton"  BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="LMB_ChangeHotkey_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="59" Margin="0,15,-1,0">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FF232429"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF28292C"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </Button.Style>
             <TextBlock>A</TextBlock>
         </Button>
-        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" Name="LMBHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="37,13,0,0" HorizontalAlignment="Left" Width="470"/>
-        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" Text="[LMB]" Foreground="#FF6A6A6A" FontSize="12" Margin="256,34,0,0" HorizontalAlignment="Left" Width="31"/>
 
-        <Rectangle Margin="0,59,0,42" Fill="#FF313336" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="40"/>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="LMBMinCpsTextBox_TextChanged" Name="LMBMinCpsTextBox" Text="12" Padding="3" TextAlignment="Center" Margin="0,63,0,46" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"></TextBox>
-        <Rectangle Margin="0,101,0,0" Fill="#FF313336" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="200"></Rectangle>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="LMBMaxCpsTextBox_TextChanged" Name="LMBMaxCpsTextBox" Text="14" Padding="3" TextAlignment="Center" Margin="0,105,0,4" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" Name="LMBHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="37,28,0,0" HorizontalAlignment="Left" Width="470"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" Text="[LMB]" Foreground="#FF6A6A6A" FontSize="12" Margin="256,49,0,0" HorizontalAlignment="Left" Width="31"/>
 
-        <Label HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="15" Margin="238,104,238,0" Foreground="#FF45A29E">Max Cps</Label>
-        <Label HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="15" Foreground="#FF45A29E" Margin="238,64,242,0" Background="{x:Null}">Min Cps</Label>
+        <Rectangle Margin="0,74,0,0" Fill="#FF313336" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="40"/>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="LMBMinCpsTextBox_TextChanged" Name="LMBMinCpsTextBox" Text="5" Padding="3" TextAlignment="Center" Margin="0,78,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"></TextBox>
+        <Rectangle Margin="0,116,0,0" Fill="#FF313336" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="200"></Rectangle>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="LMBMaxCpsTextBox_TextChanged" Name="LMBMaxCpsTextBox" Text="8" Padding="3" TextAlignment="Center" Margin="0,120,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"/>
 
-        <Button Name="RMBButton" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="RMB_ChangeHotkey_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="60" Margin="0,141,0,0">
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="15" Foreground="#FF45A29E" Margin="244,125,244,0">Max Cps</TextBlock>
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="15" Foreground="#FF45A29E" Margin="244,83,246,0">Min Cps</TextBlock>
+
+        <Button Name="RMBButton" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="RMB_ChangeHotkey_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="60" Margin="0,156,-1,0">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF1E1F23"/>
+                    <Setter Property="Background" Value="#FF232429"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type Button}">
@@ -57,17 +85,17 @@
                     </Setter>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FF292A2E"/>
+                            <Setter Property="Background" Value="#FF28292C"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </Button.Style>
         </Button>
 
-        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="RMBHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="37,154,0,0" Width="470"/>
-        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Text="[RMB]" Foreground="#FF6A6A6A" FontSize="12" Margin="256,175,0,0" Width="32"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="RMBHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="37,169,0,0" Width="470"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Text="[RMB]" Foreground="#FF6A6A6A" FontSize="12" Margin="256,190,0,0" Width="32"/>
 
-        <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Margin="194,89,0,0" Foreground="#FF396361" RenderTransformOrigin="0.5,0.5">
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Margin="194,104,0,0" Foreground="#FF396361" RenderTransformOrigin="0.5,0.5">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -77,7 +105,7 @@
                 </TransformGroup>
             </Label.RenderTransform> LMB
         </Label>
-        <Label HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="10" Margin="0,89,193,0" Foreground="#FF396361" RenderTransformOrigin="0.5,0.5" >
+        <Label HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="10" Margin="0,104,193,0" Foreground="#FF396361" RenderTransformOrigin="0.5,0.5" >
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -88,13 +116,13 @@
             </Label.RenderTransform> RMB
         </Label>
 
-        <Rectangle Margin="344,59,0,0" Fill="#FF313336" HorizontalAlignment="Right" VerticalAlignment="Top" Width="200" Height="40"/>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="RMBMinCpsTextBox_TextChanged" x:Name="RMBMinCpsTextBox" Text="12" Padding="3" TextAlignment="Center" Margin="344,63,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"/>
-        <Rectangle Margin="344,101,0,0" Fill="#FF313336" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" Width="200"/>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="RMBMaxCpsTextBox_TextChanged" x:Name="RMBMaxCpsTextBox" Text="14" Padding="3" TextAlignment="Center" Margin="344,105,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"/>
+        <Rectangle Margin="0,74,-1,0" Fill="#FF313336" HorizontalAlignment="Right" VerticalAlignment="Top" Width="201" Height="40"/>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="RMBMinCpsTextBox_TextChanged" x:Name="RMBMinCpsTextBox" Text="5" Padding="3" TextAlignment="Center" Margin="344,78,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"/>
+        <Rectangle Margin="0,116,-1,0" Fill="#FF313336" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" Width="201"/>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="RMBMaxCpsTextBox_TextChanged" x:Name="RMBMaxCpsTextBox" Text="8" Padding="3" TextAlignment="Center" Margin="344,120,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"/>
 
 
-        <Button BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="PanicButton_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="25" Margin="0,201,0,0">
+        <Button BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="PanicButton_Click" VerticalAlignment="Top" Height="25" Margin="0,216,-1,0">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Background" Value="#FF852727"/>
@@ -117,6 +145,44 @@
 
             <TextBlock Name="PanicButtonTextBlock"  FontSize="13" Foreground="#FFC3AFAF">Panic Button [Multiply]</TextBlock>
         </Button>
+
+
+        <Grid Visibility="Hidden" Background="#FF151B23" Name="Advanced_Settings" Margin="0,15,-1,0" Height="100" VerticalAlignment="Top">
+            <TextBlock TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Foreground="#FF45A29E" Margin="72,2,0,0" Width="28">LMB</TextBlock>
+            <TextBlock TextAlignment="Center" VerticalAlignment="Top" FontSize="10" Foreground="#FF45A29E" Margin="446,2,0,0" HorizontalAlignment="Left" Width="28">RMB</TextBlock>
+
+            <TextBlock ToolTip="What fraction of the target CPS the rampup begins at" TextAlignment="Center" VerticalAlignment="Top" FontSize="13" Foreground="#FF37817E" Margin="199,29,199,0" HorizontalAlignment="Center" Width="147">Rampup Initial</TextBlock>
+            <Rectangle Margin="0,18,0,0" Fill="#FF27282B" HorizontalAlignment="Right" VerticalAlignment="Top" Width="171" Height="40"/>
+            <TextBox Name="RMBRampupInitial" TextChanged="RMBRampupInitial_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="0.5" Padding="3" TextAlignment="Center" Margin="374,22,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+            <Rectangle Margin="0,18,0,0" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="40"/>
+            <TextBox Name="LMBRampupInitial" TextChanged="LMBRampupInitial_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0"  Text="0.5" Padding="3" TextAlignment="Center" Margin="0,22,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+
+            <TextBlock ToolTip="How long the rampup takes in milliseconds" TextAlignment="Center" VerticalAlignment="Top" FontSize="13" Foreground="#FF37817E" Margin="199,71,199,0" HorizontalAlignment="Center" Width="147">Rampup Duration</TextBlock>
+            <Rectangle Margin="0,60,0,0" Fill="#FF27282B" HorizontalAlignment="Right" VerticalAlignment="Top" Width="171" Height="40"/>
+            <TextBox Name="RMBRampupDuration" TextChanged="RMBRampupDuration_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="800" Padding="3" TextAlignment="Center" Margin="374,64,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+            <Rectangle Margin="0,60,0,0" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="40"/>
+            <TextBox Name="LMBRampupDuration" TextChanged="LMBRampupDuration_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="800" Padding="3" TextAlignment="Center" Margin="0,64,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+
+            <!--
+            <TextBlock TextAlignment="Center" VerticalAlignment="Top" FontSize="13" Foreground="#FF37817E" Margin="199,113,199,0" HorizontalAlignment="Center" Width="147"></TextBlock>
+            <Rectangle Margin="0,102,0,0" Fill="#FF27282B" HorizontalAlignment="Right" VerticalAlignment="Top" Width="171" Height="40"/>
+            <TextBox Name="RMBRampupInitial_Copy" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="374,106,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+            <Rectangle Margin="0,102,0,0" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="40"/>
+            <TextBox Name="LMBRampupInitial_Copy" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="0,106,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+
+            <TextBlock TextAlignment="Center" VerticalAlignment="Top" FontSize="13" Foreground="#FF37817E" Margin="199,155,199,0" HorizontalAlignment="Center" Width="147"></TextBlock>
+            <Rectangle Margin="0,144,0,0" Fill="#FF27282B" HorizontalAlignment="Right" VerticalAlignment="Top" Width="171" Height="40"/>
+            <TextBox Name="RMBRampupInitial_Copy2" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="374,148,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+            <Rectangle Margin="0,144,0,0" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="40"/>
+            <TextBox Name="LMBRampupInitial_Copy2" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="0,148,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+
+            <TextBlock TextAlignment="Center" VerticalAlignment="Top" FontSize="13" Foreground="#FF37817E" Margin="199,197,199,0" HorizontalAlignment="Center" Width="147"></TextBlock>
+            <Rectangle Margin="0,186,0,0" Fill="#FF27282B" HorizontalAlignment="Right" VerticalAlignment="Top" Width="171" Height="40"/>
+            <TextBox Name="RMBRampupInitial_Copy3" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="374,190,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+            <Rectangle Margin="0,186,0,0" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="40"/>
+            <TextBox Name="LMBRampupInitial_Copy3" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="0,190,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
+-->
+        </Grid>
 
     </Grid>
 </Window>

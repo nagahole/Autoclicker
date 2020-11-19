@@ -8,6 +8,12 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using Autoclicker.Properties;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Globalization;
+
+/// <summary>
+/// DEFAULT MIN/MAX CPS VALUES SET IN XAML, NOT IN CODE
+/// </summary>
 
 namespace Autoclicker {
     /// <summary>
@@ -77,7 +83,18 @@ namespace Autoclicker {
 
         private TextBlock panicButtonTextblock;
 
-        System.Windows.Controls.Button lmbButton, rmbButton;
+        private System.Windows.Controls.Button lmbButton, rmbButton;
+
+
+        //Advanced settings stuff
+        private Grid advancedSettingsGrid;
+        private TextBlock advancedSettingsToggleSymbol;
+
+        private System.Windows.Controls.TextBox lmbRampupInitialTextBox;
+        private System.Windows.Controls.TextBox rmbRampupInitialTextBox;
+
+        private System.Windows.Controls.TextBox lmbRampupDurationTextBox;
+        private System.Windows.Controls.TextBox rmbRampupDurationTextBox;
 
         private const string
             lmbMinCpsTextboxName = "LMBMinCpsTextBox",
@@ -96,6 +113,16 @@ namespace Autoclicker {
             lmbButtonName = "LMBButton",
             rmbButtonName = "RMBButton";
 
+        private const string advancedSettingsGridName = "Advanced_Settings";
+        private const string advancedSettingsToggleSymbolName = "AdvancedSettingsToggleSymbol";
+
+        private const string
+            lmbRampupInitialTextBoxName = "LMBRampupInitial",
+            rmbRampupInitialTextBoxName = "RMBRampupInitial",
+
+            lmbRampupDurationTextBoxName = "LMBRampupDuration",
+            rmbRampupDurationTextBoxName = "RMBRampupDuration";
+
         private Brush toggledColor = new SolidColorBrush(Color.FromArgb(255, 39, 133, 43));
         #endregion
 
@@ -107,6 +134,17 @@ namespace Autoclicker {
         float lmbMaxCps, lmbMinCps;
         float rmbMaxCps, rmbMinCps;
 
+        #region Customisable Variables
+        //Might remove this since this is kinda useless considering I can click right after an autoclicker click
+        private int lmbMinDelay = 25, rmbMinDelay = 25; //When stacking normal clicking on top of autoclicking, this will ensure they won't be too close together
+        private DateTime lastLmb, lastRmb;
+
+        private int lmbRampupDuration = 800, rmbRampupDuration = 800; //In milliseconds - Time before reaching max cps after activating
+        private DateTime lastLmbToggle, lastRmbToggle;
+
+        private float lmbRampupInitial = 0.6f, rmbRampupInitial = 0.6f; //What fraction of target cps it begins at
+        #endregion
+
         HotkeyButton lmbHotkeyButton, rmbHotkeyButton, panicHotkeyButton;
 
         #region API / USEFUL CLASSES
@@ -114,17 +152,21 @@ namespace Autoclicker {
         private Random rand = new Random();
         #endregion
 
+        #region Initializations / Fired once
+
         private void Exit() {
             App.Current.Shutdown();
             Process.GetCurrentProcess().Kill();
         }
 
-        #region Initializations / Fired once
         public MainWindow() {
             InitializeComponent();
             InitializeElements();
             Subscribe();
             HotkeyButton.Initialize();
+
+            CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            ci.NumberFormat.CurrencyDecimalSeparator = ".";
 
             InitializeHotkeyButtons();
 
@@ -146,7 +188,6 @@ namespace Autoclicker {
 
             rmbMinCps = float.Parse(rmbMinCpsTextbox.Text);
             rmbMaxCps = float.Parse(rmbMaxCpsTextbox.Text);
-
         }
 
         private void Subscribe() {
@@ -156,10 +197,16 @@ namespace Autoclicker {
         }
 
         private void GlobalHookMouseClick(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Left && rmbToggled) {
-                ToggleRMB();
-            } else if (e.Button == MouseButtons.Right && lmbToggled) {
-                ToggleLMB();
+            if (e.Button == MouseButtons.Left) {
+                if (rmbToggled && (DateTime.Now - lastRmbToggle).TotalMilliseconds < 20) {
+                    ToggleRMB();
+                }
+                lastLmb = DateTime.Now;
+            } else if (e.Button == MouseButtons.Right) {
+                if (lmbToggled && (DateTime.Now - lastLmbToggle).TotalMilliseconds < 20) {
+                    ToggleLMB();
+                }
+                lastRmb = DateTime.Now;
             }
         }
 
@@ -176,11 +223,20 @@ namespace Autoclicker {
 
             lmbButton = FindName(lmbButtonName) as System.Windows.Controls.Button;
             rmbButton = FindName(rmbButtonName) as System.Windows.Controls.Button;
+
+            advancedSettingsGrid = FindName(advancedSettingsGridName) as Grid;
+            advancedSettingsToggleSymbol = FindName(advancedSettingsToggleSymbolName) as TextBlock;
+
+            lmbRampupInitialTextBox = FindName(lmbRampupInitialTextBoxName) as System.Windows.Controls.TextBox;
+            rmbRampupInitialTextBox = FindName(rmbRampupInitialTextBoxName) as System.Windows.Controls.TextBox;
+
+            lmbRampupDurationTextBox = FindName(lmbRampupDurationTextBoxName) as System.Windows.Controls.TextBox;
+            rmbRampupDurationTextBox = FindName(rmbRampupDurationTextBoxName) as System.Windows.Controls.TextBox;
         }
 
         private void InitializeHotkeyButtons() {
             //LMB
-            lmbHotkeyButton = new HotkeyButton(Keys.G);
+            lmbHotkeyButton = new HotkeyButton(MouseButtons.XButton2);
             lmbHotkeyTextblock.Text = $"Press [{(lmbHotkeyButton.GetHotkey())}] to start";
             lmbHotkeyButton.HotkeySetEvent += (sender, e) => {
                 lmbHotkeyTextblock.Text = $"Press [{(lmbHotkeyButton.GetHotkey())}] to start";
@@ -194,7 +250,7 @@ namespace Autoclicker {
 
             //RMB
 
-            rmbHotkeyButton = new HotkeyButton(Keys.H);
+            rmbHotkeyButton = new HotkeyButton(MouseButtons.XButton1);
             rmbHotkeyTextblock.Text = $"Press [{(rmbHotkeyButton.GetHotkey())}] to start";
             rmbHotkeyButton.HotkeySetEvent += (sender, e) => {
                 rmbHotkeyTextblock.Text = $"Press [{(rmbHotkeyButton.GetHotkey())}] to start";
@@ -225,14 +281,20 @@ namespace Autoclicker {
             while (true) {
                 if (lmbToggled) {
                     //int delay = rand.Next(min, max + 1) - carryover;
-                    int delay = (int)System.Math.Round(1000f / (rand.NextDouble() * (lmbMaxCps - lmbMinCps) + lmbMinCps)) - carryover;
+                    int delay = (int) ((System.Math.Round(1000f / (rand.NextDouble() * (lmbMaxCps - lmbMinCps) + lmbMinCps)) - carryover)
+                        / ((System.Math.Min((DateTime.Now - lastLmbToggle).TotalMilliseconds, lmbRampupDuration) / (float)lmbRampupDuration) * (1 - lmbRampupInitial) + lmbRampupInitial)
+                        );
 
                     DateTime start = DateTime.Now;
-                    LeftMouseClick();
-                    while((DateTime.Now - start).Milliseconds <= delay) {
+
+                    if((lastLmb - DateTime.Now).TotalMilliseconds <= lmbMinDelay) {
+                        LeftMouseClick();
+                    }
+                    
+                    while((DateTime.Now - start).TotalMilliseconds <= delay) {
                         Thread.Sleep(1);
                     }
-                    carryover = (DateTime.Now - start).Milliseconds - delay;
+                    carryover = (int) (DateTime.Now - start).TotalMilliseconds - delay;
                 } else {
                     Thread.Sleep(1);
                 }
@@ -244,14 +306,20 @@ namespace Autoclicker {
             while (true) {
                 if (rmbToggled) {
                     //int delay = rand.Next(min, max + 1) - carryover;
-                    int delay = (int)System.Math.Round(1000f / (rand.NextDouble() * (rmbMaxCps - rmbMinCps) + rmbMinCps)) - carryover;
+                    int delay = (int)((System.Math.Round(1000f / (rand.NextDouble() * (rmbMaxCps - rmbMinCps) + rmbMinCps)) - carryover)
+                        / ((System.Math.Min((DateTime.Now - lastRmbToggle).TotalMilliseconds, rmbRampupDuration) / (float)rmbRampupDuration) * (1 - rmbRampupInitial) + rmbRampupInitial)
+                        );
 
                     DateTime start = DateTime.Now;
-                    RightMouseClick();
-                    while ((DateTime.Now - start).Milliseconds <= delay) {
+
+                    if ((lastRmb - DateTime.Now).TotalMilliseconds <= rmbMinDelay) {
+                        RightMouseClick();
+                    }
+                    
+                    while ((DateTime.Now - start).TotalMilliseconds <= delay) {
                         Thread.Sleep(1);
                     }
-                    carryover = (DateTime.Now - start).Milliseconds - delay;
+                    carryover = (int) (DateTime.Now - start).TotalMilliseconds - delay;
                 } else {
                     Thread.Sleep(1);
                 }
@@ -262,6 +330,7 @@ namespace Autoclicker {
         #region Recurring Methods
 
         private void ToggleLMB() {
+            lastLmbToggle = DateTime.Now;
             if (lmbMinCps <= 0) {
                 lmbMinCpsTextbox.Text = "1";
             }
@@ -280,6 +349,7 @@ namespace Autoclicker {
         }
 
         private void ToggleRMB() {
+            lastRmbToggle = DateTime.Now;
             if (rmbMinCps <= 0) {
                 rmbMinCpsTextbox.Text = "1";
             }
@@ -338,13 +408,17 @@ namespace Autoclicker {
         }
 
         private void LMBMinCpsTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            if (wait || lmbMinCps.ToString() == lmbMinCpsTextbox.Text) return;
+            if (wait) return;
 
             string newText = lmbMinCpsTextbox.Text;
             float n;
 
+            if (newText.Length > 0 && newText[newText.Length - 1] == '.') {
+                newText = newText.Remove(newText.Length - 1, 1);
+            }
+
+            Console.WriteLine(newText);
             if (float.TryParse(newText, out n)) {
-                lmbMinCpsTextbox.Text = n.ToString();
                 lmbMinCps = n;
             } else if (newText == string.Empty) {
                 lmbMinCps = 0;
@@ -354,13 +428,16 @@ namespace Autoclicker {
         }
 
         private void LMBMaxCpsTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            if (wait || lmbMaxCps.ToString() == lmbMaxCpsTextbox.Text) return;
+            if (wait) return;
 
             string newText = lmbMaxCpsTextbox.Text;
             float n;
 
+            if (newText.Length > 0 && newText[newText.Length - 1] == '.') {
+                newText = newText.Remove(newText.Length - 1, 1);
+            }
+
             if (float.TryParse(newText, out n)) {
-                lmbMaxCpsTextbox.Text = n.ToString();
                 lmbMaxCps = n;
             } else if (newText == string.Empty) {
                 lmbMaxCps = 0;
@@ -370,13 +447,16 @@ namespace Autoclicker {
         }
 
         private void RMBMinCpsTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            if (wait || rmbMinCps.ToString() == rmbMinCpsTextbox.Text) return;
+            if (wait) return;
 
             string newText = rmbMinCpsTextbox.Text;
             float n;
 
+            if (newText.Length > 0 && newText[newText.Length - 1] == '.') {
+                newText = newText.Remove(newText.Length - 1, 1);
+            }
+
             if (float.TryParse(newText, out n)) {
-                rmbMinCpsTextbox.Text = n.ToString();
                 rmbMinCps = n;
             } else if (newText == string.Empty) {
                 rmbMinCps = 0;
@@ -386,18 +466,134 @@ namespace Autoclicker {
         }
 
         private void RMBMaxCpsTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            if (wait || rmbMaxCps.ToString() == rmbMaxCpsTextbox.Text) return;
+            if (wait) return;
 
             string newText = rmbMaxCpsTextbox.Text;
             float n;
 
+            if (newText.Length > 0 && newText[newText.Length - 1] == '.') {
+                newText = newText.Remove(newText.Length - 1, 1);
+            }
+
             if (float.TryParse(newText, out n)) {
-                rmbMaxCpsTextbox.Text = n.ToString();
                 rmbMaxCps = n;
             } else if (newText == string.Empty) {
                 rmbMaxCps = 0;
             } else {
                 rmbMaxCpsTextbox.Text = rmbMaxCps.ToString();
+            }
+        }
+
+        private bool transition = false;
+
+        private void ToggleAdvancedSettingsButton_Click(object sender, RoutedEventArgs e) {
+            if (transition) return;
+
+            if(advancedSettingsGrid.Visibility == Visibility.Hidden) { //Showing - Going Down
+                advancedSettingsGrid.Visibility = Visibility.Visible;
+                transition = true;
+
+                var rotateAnimation = new DoubleAnimation(0, 180, TimeSpan.FromSeconds(0.2f));
+                rotateAnimation.AccelerationRatio = 0.4f;
+                rotateAnimation.DecelerationRatio = 0.4f;
+                var rt = (RotateTransform) advancedSettingsToggleSymbol.RenderTransform;
+                rt.BeginAnimation(RotateTransform.AngleProperty, rotateAnimation);
+
+                var slideoutAnimation = new DoubleAnimation(0, 100, TimeSpan.FromSeconds(0.2f));
+                slideoutAnimation.AccelerationRatio = 0.4f;
+                slideoutAnimation.DecelerationRatio = 0.4f;
+                slideoutAnimation.Completed += (s, ev) => {
+                    transition = false;
+                };
+
+                advancedSettingsGrid.BeginAnimation(HeightProperty, slideoutAnimation);
+
+            } else { //Taking away, Going up
+                transition = true;
+
+                var rotateAnimation = new DoubleAnimation(180, 0, TimeSpan.FromSeconds(0.2f));
+                rotateAnimation.AccelerationRatio = 0.4f;
+                rotateAnimation.DecelerationRatio = 0.4f;
+                var rt = (RotateTransform)advancedSettingsToggleSymbol.RenderTransform;
+                rt.BeginAnimation(RotateTransform.AngleProperty, rotateAnimation);
+
+                var slideinAnimation = new DoubleAnimation(100, 0, TimeSpan.FromSeconds(0.2f));
+                slideinAnimation.AccelerationRatio = 0.4f;
+                slideinAnimation.DecelerationRatio = 0.4f;
+                slideinAnimation.Completed += (s, ev) => {
+                    advancedSettingsGrid.Visibility = Visibility.Hidden;
+                    transition = false;
+                };
+
+                advancedSettingsGrid.BeginAnimation(HeightProperty, slideinAnimation);
+            }
+        }
+
+        private void RMBRampupInitial_TextChanged(object sender, TextChangedEventArgs e) {
+            if (wait) return;
+
+            string newText = rmbRampupInitialTextBox.Text;
+            float n;
+
+            if (newText.Length > 0 && newText[newText.Length - 1] == '.') {
+                newText = newText.Remove(newText.Length - 1, 1);
+            }
+
+            if (float.TryParse(newText, out n)) {
+                rmbRampupInitial = n;
+            } else if (newText == string.Empty) {
+                rmbRampupInitial = 0;
+            } else {
+                rmbRampupInitialTextBox.Text = rmbRampupInitial.ToString();
+            }
+        }
+
+        private void LMBRampupInitial_TextChanged(object sender, TextChangedEventArgs e) {
+            if (wait) return;
+
+            string newText = lmbRampupInitialTextBox.Text;
+            float n;
+
+            if (newText.Length > 0 && newText[newText.Length - 1] == '.') {
+                newText = newText.Remove(newText.Length - 1, 1);
+            }
+
+            if (float.TryParse(newText, out n)) {
+                lmbRampupInitial = n;
+            } else if (newText == string.Empty) {
+                lmbRampupInitial = 0;
+            } else {
+                lmbRampupInitialTextBox.Text = lmbRampupInitial.ToString();
+            }
+        }
+
+        private void RMBRampupDuration_TextChanged(object sender, TextChangedEventArgs e) {
+            if (wait) return;
+
+            string newText = rmbRampupDurationTextBox.Text;
+            int n;
+
+            if (int.TryParse(newText, out n)) {
+                rmbRampupDuration = n;
+            } else if (newText == string.Empty) {
+                rmbRampupDuration = 0;
+            } else {
+                rmbRampupDurationTextBox.Text = rmbRampupDuration.ToString();
+            }
+        }
+
+        private void LMBRampupDuration_TextChanged(object sender, TextChangedEventArgs e) {
+            if (wait) return;
+
+            string newText = lmbRampupDurationTextBox.Text;
+            int n;
+
+            if (int.TryParse(newText, out n)) {
+                lmbRampupDuration = n;
+            } else if (newText == string.Empty) {
+                lmbRampupDuration = 0;
+            } else {
+                lmbRampupDurationTextBox.Text = lmbRampupDuration.ToString();
             }
         }
         #endregion
