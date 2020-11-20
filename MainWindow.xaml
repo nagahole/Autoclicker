@@ -271,40 +271,72 @@
             <Rectangle Margin="0,114,0,0" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="30"/>
             <TextBox Name="LMBMiniDeviationTextBox" TextChanged="LMBMiniDeviationTextBox_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="0" Padding="3" TextAlignment="Center" Margin="0,114,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
 
-            <TextBlock ToolTip="If disabled, only one side may be active at a time" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="38,165,0,0">Both sides can be active</TextBlock>
-            <CheckBox IsChecked="False" Name="BothSidesCanBeActive" Checked="BothSidesCanBeActive_Checked" Unchecked="BothSidesCanBeActive_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="19,166,0,0" />
+            <TextBlock ToolTip="If disabled, only one side may be active at a time" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="38,156,0,0">Both sides can be active</TextBlock>
+            <CheckBox IsChecked="False" Name="BothSidesCanBeActive" Checked="BothSidesCanBeActive_Checked" Unchecked="BothSidesCanBeActive_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="19,157,0,0" />
 
-            <TextBlock ToolTip="Pressing left click will disable the right autoclicker if it is active and vice versa" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="38,190,0,0">Clicks disables other side</TextBlock>
-            <CheckBox IsChecked="True" Name="ClicksDisablesOtherSide" Checked="ClicksDisablesOtherSide_Checked" Unchecked="ClicksDisablesOtherSide_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="19,191,0,0" />
+            <TextBlock ToolTip="Pressing left click will disable the right autoclicker if it is active and vice versa" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="38,181,0,0">Clicks disables other side</TextBlock>
+            <CheckBox IsChecked="True" Name="ClicksDisablesOtherSide" Checked="ClicksDisablesOtherSide_Checked" Unchecked="ClicksDisablesOtherSide_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="19,182,0,0" />
 
-            <TextBlock ToolTip="Pressing any number key will disable both sides' autoclickers" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="213,165,0,0">Number disables autoclicker</TextBlock>
-            <CheckBox IsChecked="True" Name="NumberDisablesAutoclicker" Checked="NumberDisablesAutoclicker_Checked" Unchecked="NumberDisablesAutoclicker_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="194,166,0,0" />
+            <TextBlock ToolTip="Pressing any number key will disable both sides' autoclickers" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="213,156,0,0">Number disables autoclicker</TextBlock>
+            <CheckBox IsChecked="True" Name="NumberDisablesAutoclicker" Checked="NumberDisablesAutoclicker_Checked" Unchecked="NumberDisablesAutoclicker_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="194,157,0,0" />
 
-            <TextBlock ToolTip="Will play a small sound when toggling on or off" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="213,190,0,0">Play toggle sounds</TextBlock>
-            <CheckBox IsChecked="True" Name="PlayToggleSounds" Checked="PlayToggleSounds_Checked" Unchecked="PlayToggleSounds_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="194,191,0,0" />
+            <TextBlock ToolTip="Will play a small sound when toggling on or off" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="213,181,0,0">Play toggle sounds</TextBlock>
+            <CheckBox IsChecked="True" Name="PlayToggleSounds" Checked="PlayToggleSounds_Checked" Unchecked="PlayToggleSounds_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="194,182,0,0" />
 
-            <TextBlock ToolTip="Will play a small sound whenever the autoclicker clicks" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="408,165,0,0">Play click sounds</TextBlock>
-            <CheckBox IsChecked="False" Name="PlayClickSounds" Checked="PlayClickSounds_Checked" Unchecked="PlayClickSounds_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="389,166,0,0" />
-            
+            <TextBlock ToolTip="Will play a small sound whenever the autoclicker clicks" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="408,156,0,0">Play click sounds</TextBlock>
+            <CheckBox IsChecked="False" Name="PlayClickSounds" Checked="PlayClickSounds_Checked" Unchecked="PlayClickSounds_Unchecked" Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="389,157,0,0" />
+
             <!--
             <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="#FF37817E" Margin="394,182,0,0"></TextBlock>
             <CheckBox Style="{DynamicResource CheckBoxStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="369,183,0,0" />
 -->
 
-            <!--
-            <TextBlock TextAlignment="Center" VerticalAlignment="Top" FontSize="13" Foreground="#FF37817E" Margin="199,155,199,0" HorizontalAlignment="Center" Width="147"></TextBlock>
-            <Rectangle Margin="0,144,0,0" Fill="#FF27282B" HorizontalAlignment="Right" VerticalAlignment="Top" Width="171" Height="40"/>
-            <TextBox Name="RMBRampupInitial_Copy2" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="374,148,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
-            <Rectangle Margin="0,144,0,0" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="40"/>
-            <TextBox Name="LMBRampupInitial_Copy2" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="0,148,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
-
-            <TextBlock TextAlignment="Center" VerticalAlignment="Top" FontSize="13" Foreground="#FF37817E" Margin="199,197,199,0" HorizontalAlignment="Center" Width="147"></TextBlock>
-            <Rectangle Margin="0,186,0,0" Fill="#FF27282B" HorizontalAlignment="Right" VerticalAlignment="Top" Width="171" Height="40"/>
-            <TextBox Name="RMBRampupInitial_Copy3" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="374,190,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
-            <Rectangle Margin="0,186,0,0" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="40"/>
-            <TextBox Name="LMBRampupInitial_Copy3" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" Text="5" Padding="3" TextAlignment="Center" Margin="0,190,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="170"/>
--->
-
+            <Button Name="ExportButton" Click="ExportButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="18" Margin="0,209,385,-1">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#FF425695"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF475DA0"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock Foreground="#FF89A3F5" Height="19">Export Profile</TextBlock>
+            </Button>
+            <Rectangle Margin="160,210,0,-1" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="281" Height="17"/>
+            <TextBox Name="ImportProfileTextbox" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" BorderThickness="0" Text="dsadsadzxd" Padding="1" TextAlignment="Center" Margin="160,210,0,-1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="281" Height="17"/>
+            <Button Name="ImportProfileButton" Click="ImportProfileButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="17" Margin="441,210,0,-1">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#FF27852B"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF2A912E"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock Foreground="#FF77CB7A" Height="19"><Run Text="Import Profile"/></TextBlock>
+            </Button>
         </Grid>
 
     </Grid>

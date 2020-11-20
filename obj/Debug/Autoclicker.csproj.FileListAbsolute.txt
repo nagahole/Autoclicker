@@ -32,3 +32,5 @@ C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.Properties.Resources.resou
 C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.GenerateResource.cache
 C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CoreCompileInputs.cache
 C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CopyComplete
+C:\Code\Autoclicker\Autoclicker\bin\Debug\Newtonsoft.Json.dll
+C:\Code\Autoclicker\Autoclicker\bin\Debug\Newtonsoft.Json.xml

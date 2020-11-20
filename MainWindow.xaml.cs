@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Globalization;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 /// <summary>
 /// DEFAULT MIN/MAX CPS VALUES SET IN XAML, NOT IN CODE
@@ -83,17 +84,17 @@ namespace Autoclicker {
             rmbToggled = false,
             wait = true;
 
-        float lmbMaxCps, lmbMinCps;
-        float rmbMaxCps, rmbMinCps;
+        private DateTime lastLmbToggle, lastRmbToggle;
         #endregion
 
         #region Customisable Variables
+        private float lmbMaxCps, lmbMinCps;
+        private float rmbMaxCps, rmbMinCps;
+
         private int lmbRampupDuration = 800, rmbRampupDuration = 800; //In milliseconds - Time before reaching max cps after activating
-        private DateTime lastLmbToggle, lastRmbToggle;
 
         private float lmbRampupInitial = 0.6f, rmbRampupInitial = 0.6f; //What fraction of target cps it begins at
 
-        //IMPORTANT: All other UI fields will automatically match the one displayed on the XAML, but i can't be bothered here so make sure these match up
         private bool canBothBeActive = false, clicksDisablesOtherSide = true, numbersDisablesAutoclicker = true, playToggleSounds = true, playClickSounds = true;
 
         private float lmbBias = 0, rmbBias = 0;
@@ -682,6 +683,14 @@ namespace Autoclicker {
                 RMBMiniDeviationTextBox.Text = rmbMiniDeviation.ToString();
             }
         }
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e) {
+            System.Windows.Clipboard.SetText(ExportCurrentProfile());
+        }
+
+        private void ImportProfileButton_Click(object sender, RoutedEventArgs e) {
+            ImportProfile(ImportProfileTextbox.Text);
+        }
         #region Checkbox Stuff
         private void BothSidesCanBeActive_Checked(object sender, RoutedEventArgs e) {
             canBothBeActive = true;
@@ -725,5 +734,81 @@ namespace Autoclicker {
         #endregion
 
         #endregion
+
+        private void LoadProfile(AutoclickerProfile profile) {
+            LMBMinCpsTextBox.Text = profile.lmbMinCps.ToString();
+            RMBMaxCpsTextBox.Text = profile.rmbMaxCps.ToString();
+
+            LMBMaxCpsTextBox.Text = profile.lmbMaxCps.ToString();
+            RMBMaxCpsTextBox.Text = profile.rmbMaxCps.ToString();
+
+            LMBRampupDuration.Text = profile.lmbRampupDuration.ToString();
+            RMBRampupDuration.Text = profile.rmbRampupDuration.ToString();
+
+            LMBRampupInitial.Text = profile.lmbRampupInitial.ToString();
+            RMBRampupInitial.Text = profile.rmbRampupInitial.ToString();
+
+            BothSidesCanBeActive.IsChecked = profile.canBothBeActive;
+            ClicksDisablesOtherSide.IsChecked = profile.clicksDisablesOtherSide;
+            NumberDisablesAutoclicker.IsChecked = profile.numbersDisablesAutoclicker;
+            PlayToggleSounds.IsChecked = profile.playToggleSounds;
+            PlayClickSounds.IsChecked = profile.playClickSounds;
+
+            LMBBiasTextBox.Text = profile.lmbBias.ToString();
+            RMBBiasTextBox.Text = profile.rmbBias.ToString();
+
+            LMBMiniDeviationTextBox.Text = profile.lmbMiniDeviation.ToString();
+            RMBMiniDeviationTextBox.Text = profile.rmbMiniDeviation.ToString();
+        }
+
+        private string ExportCurrentProfile() {
+            AutoclickerProfile profile = new AutoclickerProfile();
+            profile.lmbMinCps = lmbMinCps;
+            profile.rmbMinCps = rmbMinCps;
+            profile.lmbMaxCps = lmbMaxCps;
+            profile.rmbMaxCps = rmbMaxCps;
+
+            profile.lmbRampupDuration = lmbRampupDuration;
+            profile.rmbRampupDuration = rmbRampupDuration;
+
+            profile.lmbRampupInitial = lmbRampupInitial;
+            profile.rmbRampupInitial = rmbRampupInitial;
+
+            profile.canBothBeActive = canBothBeActive;
+            profile.clicksDisablesOtherSide = clicksDisablesOtherSide;
+            profile.numbersDisablesAutoclicker = numbersDisablesAutoclicker;
+            profile.playToggleSounds = playToggleSounds;
+            profile.playClickSounds = playClickSounds;
+
+            profile.lmbBias = lmbBias;
+            profile.rmbBias = rmbBias;
+
+            profile.lmbMiniDeviation = lmbMiniDeviation;
+            profile.rmbMiniDeviation = rmbMiniDeviation;
+
+            return ExportProfile(profile);
+        }
+
+        private string ExportProfile(AutoclickerProfile profile) {
+            return JsonConvert.SerializeObject(profile);
+        }
+
+        private void ImportProfile(string raw) {
+            try {
+                AutoclickerProfile profile = JsonConvert.DeserializeObject<AutoclickerProfile>(raw);
+                LoadProfile(profile);
+            } catch (Exception e) {
+                System.Windows.MessageBox.Show($"Error: {e.Message}");
+            }
+        }
+    }
+
+    public struct AutoclickerProfile {
+        public float lmbMinCps, rmbMinCps, lmbMaxCps, rmbMaxCps;
+        public int lmbRampupDuration, rmbRampupDuration;
+        public float lmbRampupInitial, rmbRampupInitial;
+        public bool canBothBeActive, clicksDisablesOtherSide, numbersDisablesAutoclicker, playToggleSounds, playClickSounds;
+        public float lmbBias, rmbBias;
+        public float lmbMiniDeviation, rmbMiniDeviation;
     }
 }
