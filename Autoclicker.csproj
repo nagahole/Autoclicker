@@ -76,6 +76,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\BackgroundBeep.cs" />
+    <Compile Include="Properties\BiasedRandom.cs" />
     <Compile Include="Properties\CustomExtensionMethods.cs" />
     <Compile Include="Properties\HotkeyButton.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
