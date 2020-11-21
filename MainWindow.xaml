@@ -132,7 +132,7 @@
                 <RotateTransform Angle="0"/>
             </TextBlock.RenderTransform>⥥</TextBlock>
 
-        <Button FocusVisualStyle="{x:Null}" Name="LMBButton"  BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="LMB_ChangeHotkey_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="59" Margin="0,15,-1,0">
+        <Button FocusVisualStyle="{x:Null}" Name="LMBButton"  BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="LMB_ChangeHotkey_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="59" Margin="0,15,272,0">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Background" Value="#FF232429"/>
@@ -155,18 +155,18 @@
             <TextBlock>A</TextBlock>
         </Button>
 
-        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" Name="LMBHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="37,28,0,0" HorizontalAlignment="Left" Width="470"/>
-        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" Text="[LMB]" Foreground="#FF6A6A6A" FontSize="12" Margin="256,49,0,0" HorizontalAlignment="Left" Width="31"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" Name="LMBHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="18,28,0,0" HorizontalAlignment="Left" Width="235"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" Text="[LMB]" Foreground="#FF6A6A6A" FontSize="12" Margin="100,49,0,0" HorizontalAlignment="Left" Width="70"/>
 
         <Rectangle Margin="0,74,0,0" Fill="#FF313336" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="40"/>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="LMBMinCpsTextBox_TextChanged" Name="LMBMinCpsTextBox" Text="5" Padding="3" TextAlignment="Center" Margin="0,78,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"></TextBox>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="LMBMinCpsTextBox_TextChanged" Name="LMBMinCpsTextBox" Text="5" Padding="3" TextAlignment="Center" Margin="0,78,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200" CaretBrush="#CC3E3E3E"></TextBox>
         <Rectangle Margin="0,116,0,0" Fill="#FF313336" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="200"></Rectangle>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="LMBMaxCpsTextBox_TextChanged" Name="LMBMaxCpsTextBox" Text="8" Padding="3" TextAlignment="Center" Margin="0,120,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"/>
 
         <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="15" Foreground="#FF45A29E" Margin="244,125,244,0">Max Cps</TextBlock>
         <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="15" Foreground="#FF45A29E" Margin="244,83,246,0">Min Cps</TextBlock>
 
-        <Button Name="RMBButton" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="RMB_ChangeHotkey_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="60" Margin="0,156,-1,0">
+        <Button Name="RMBButton" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="RMB_ChangeHotkey_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="59" Margin="272,15,-1,0">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Background" Value="#FF232429"/>
@@ -188,8 +188,8 @@
             </Button.Style>
         </Button>
 
-        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="RMBHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="37,169,0,0" Width="470"/>
-        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Text="[RMB]" Foreground="#FF6A6A6A" FontSize="12" Margin="256,190,0,0" Width="32"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="RMBHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="290,28,0,0" Width="237" Height="17"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Text="[RMB]" Foreground="#FF6A6A6A" FontSize="12" Margin="388,49,0,0" Width="42" Height="16"/>
 
         <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Margin="194,104,0,0" Foreground="#FF396361" RenderTransformOrigin="0.5,0.5">
             <Label.RenderTransform>
@@ -217,6 +217,31 @@
         <Rectangle Margin="0,116,-1,0" Fill="#FF313336" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" Width="201"/>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" BorderThickness="0" TextChanged="RMBMaxCpsTextBox_TextChanged" x:Name="RMBMaxCpsTextBox" Text="8" Padding="3" TextAlignment="Center" Margin="344,120,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="200"/>
 
+        <Button ToolTip="Blockhits whenever left autoclicker is on" Name="BlockhitChangeHotkey" Click="BlockhitChangeHotkey_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="60" Margin="0,156,-1,0">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FF232429"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF28292C"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="BlockhitHotkeyText" Text="MouseButton3" Foreground="#FFC5C6C7" FontSize="13" Margin="37,169,0,0" Width="470"/>
+        <TextBlock IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Text="Blockhit" Foreground="#FF6A6A6A" FontSize="12" Margin="218,190,0,0" Width="108"/>
+
+
         <Button BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" Click="PanicButton_Click" VerticalAlignment="Top" Height="25" Margin="0,216,-1,0">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -240,10 +265,12 @@
 
             <TextBlock Name="PanicButtonTextBlock"  FontSize="13" Foreground="#FFC3AFAF">Panic Button [Multiply]</TextBlock>
         </Button>
+
+
         <!--#endregion-->
 
         <!-- Advanced Settings -->
-        <Grid Visibility="Visible" Background="#FF151B23" Name="Advanced_Settings" Margin="0,15,-1,0" Height="226" VerticalAlignment="Top">
+        <Grid Visibility="Hidden" Background="#FF151B23" Name="Advanced_Settings" Margin="0,15,-1,0" Height="226" VerticalAlignment="Top">
             <TextBlock TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Foreground="#FF45A29E" Margin="72,2,0,0" Width="28">LMB</TextBlock>
             <TextBlock TextAlignment="Center" VerticalAlignment="Top" FontSize="10" Foreground="#FF45A29E" Margin="446,2,0,0" HorizontalAlignment="Left" Width="28">RMB</TextBlock>
 
@@ -314,7 +341,7 @@
                 <TextBlock Foreground="#FF89A3F5" Height="19">Export Profile</TextBlock>
             </Button>
             <Rectangle Margin="160,210,0,-1" Fill="#FF27282B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="281" Height="17"/>
-            <TextBox Name="ImportProfileTextbox" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" BorderThickness="0" Text="dsadsadzxd" Padding="1" TextAlignment="Center" Margin="160,210,0,-1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="281" Height="17"/>
+            <TextBox Name="ImportProfileTextbox" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" BorderThickness="0" Text="" Padding="1" TextAlignment="Center" Margin="160,210,0,-1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF849795" SelectionBrush="{x:Null}" Width="281" Height="17"/>
             <Button Name="ImportProfileButton" Click="ImportProfileButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="17" Margin="441,210,0,-1">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">

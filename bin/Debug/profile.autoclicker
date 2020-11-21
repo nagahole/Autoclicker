@@ -1,0 +1,1 @@
+{"lmbMinCps":2.0,"rmbMinCps":6.0,"lmbMaxCps":12.0,"rmbMaxCps":15.0,"lmbRampupDuration":250,"rmbRampupDuration":450,"lmbRampupInitial":0.62,"rmbRampupInitial":0.71,"canBothBeActive":false,"clicksDisablesOtherSide":true,"numbersDisablesAutoclicker":true,"playToggleSounds":true,"playClickSounds":true,"lmbBias":7.0,"rmbBias":3.0,"lmbMiniDeviation":30.0,"rmbMiniDeviation":12.0}

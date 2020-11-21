@@ -12,6 +12,7 @@ using System.Windows.Media.Animation;
 using System.Globalization;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.IO;
 
 /// <summary>
 /// DEFAULT MIN/MAX CPS VALUES SET IN XAML, NOT IN CODE
@@ -28,6 +29,7 @@ namespace Autoclicker {
     }
 
     public partial class MainWindow : Window {
+
         #region stolen
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern bool SetCursorPos(int x, int y);
@@ -85,6 +87,8 @@ namespace Autoclicker {
             wait = true;
 
         private DateTime lastLmbToggle, lastRmbToggle;
+
+        private const string profileFileName = "profile.autoclicker";
         #endregion
 
         #region Customisable Variables
@@ -100,6 +104,10 @@ namespace Autoclicker {
         private float lmbBias = 0, rmbBias = 0;
 
         private float lmbMiniDeviation = 0, rmbMiniDeviation = 0;
+
+        private int normalizationClicks = 100; //Number of clicks to find average Thread.Sleep deviation to account for that
+
+        private bool blockHit = false;
         #endregion
 
         #region API / USEFUL CLASSES
@@ -109,42 +117,50 @@ namespace Autoclicker {
 
         #region UI references
 
-        HotkeyButton lmbHotkeyButton, rmbHotkeyButton, panicHotkeyButton;
+        HotkeyButton lmbHotkeyButton, rmbHotkeyButton, blockhitHotkeyButton, panicHotkeyButton;
 
         #endregion
 
         #region Initializations / Fired once
 
-        private void Exit() {
-            App.Current.Shutdown();
-            Process.GetCurrentProcess().Kill();
-        }
-
         public MainWindow() {
             InitializeComponent();
             Subscribe();
             HotkeyButton.Initialize();
-
-            CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
-            ci.NumberFormat.CurrencyDecimalSeparator = ".";
-
             InitializeHotkeyButtons();
+            InitiallizeAutoclickers();
+            MatchFieldsFromXaml();
+
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), profileFileName);
 
             advancedGridHeight = (int) Advanced_Settings.Height;
 
             this.Closed += (s, e) => {
-                Exit();
+                App.Current.Shutdown();
+                Process.GetCurrentProcess().Kill();
             };
-
-            Thread lmbAc = new Thread(LMBAutoClick);
-            lmbAc.Start();
-
-            Thread rmbAc = new Thread(RMBAutoClick);
-            rmbAc.Start();
 
             Thread.Sleep(1);
             wait = false;
 
+            if (File.Exists(filePath)) {
+                ImportProfile(File.ReadAllText(filePath));
+            }
+        }
+
+        private void InitiallizeAutoclickers() {
+            Thread lmbAc = new Thread(LMBAutoClick);
+            lmbAc.Start();
+
+            lmbAc.Priority = ThreadPriority.Highest;
+
+            Thread rmbAc = new Thread(RMBAutoClick);
+            rmbAc.Start();
+
+            rmbAc.Priority = ThreadPriority.Highest;
+        }
+
+        private void MatchFieldsFromXaml() {
             lmbMinCps = float.Parse(LMBMinCpsTextBox.Text);
             lmbMaxCps = float.Parse(LMBMaxCpsTextBox.Text);
 
@@ -157,11 +173,11 @@ namespace Autoclicker {
             lmbRampupDuration = int.Parse(LMBRampupDuration.Text);
             rmbRampupDuration = int.Parse(RMBRampupDuration.Text);
 
-            canBothBeActive = (bool) BothSidesCanBeActive.IsChecked;
-            clicksDisablesOtherSide = (bool) ClicksDisablesOtherSide.IsChecked;
-            numbersDisablesAutoclicker = (bool) NumberDisablesAutoclicker.IsChecked;
-            playToggleSounds = (bool) PlayToggleSounds.IsChecked;
-            playClickSounds = (bool) PlayClickSounds.IsChecked;
+            canBothBeActive = (bool)BothSidesCanBeActive.IsChecked;
+            clicksDisablesOtherSide = (bool)ClicksDisablesOtherSide.IsChecked;
+            numbersDisablesAutoclicker = (bool)NumberDisablesAutoclicker.IsChecked;
+            playToggleSounds = (bool)PlayToggleSounds.IsChecked;
+            playClickSounds = (bool)PlayClickSounds.IsChecked;
 
             lmbBias = float.Parse(LMBBiasTextBox.Text);
             rmbBias = float.Parse(RMBBiasTextBox.Text);
@@ -183,7 +199,7 @@ namespace Autoclicker {
                     ToggleRMB();
                 }
             } else if (e.Button == MouseButtons.Right) {
-                if (lmbToggled && (DateTime.Now - lastLmbToggle).TotalMilliseconds > 20 && clicksDisablesOtherSide) {
+                if (lmbToggled && (DateTime.Now - lastLmbToggle).TotalMilliseconds > 20 && clicksDisablesOtherSide && !blockHit) {
                     ToggleLMB();
                 }
             }
@@ -252,7 +268,33 @@ namespace Autoclicker {
                 RMBHotkeyText.Text = "[Press any key]";
             };
 
-            //Hotkey Button
+            //Blockhit
+
+            blockhitHotkeyButton = new HotkeyButton(Keys.G);
+            BlockhitHotkeyText.Text = $"Press [{blockhitHotkeyButton.GetHotkey()}] to enable blockhits";
+            blockhitHotkeyButton.HotkeySetEvent += (sender, e) => {
+                BlockhitHotkeyText.Text = $"Press [{blockhitHotkeyButton.GetHotkey()}] to enable blockhits";
+            };
+            blockhitHotkeyButton.HotkeyPressed += (sender, e) => {
+                blockHit = !blockHit;
+                BlockhitHotkeyText.Text = $"Press [{blockhitHotkeyButton.GetHotkey()}] to {((blockHit) ? "disable" : "enable")} blockhits";
+
+                if (blockHit) {
+                    BlockhitChangeHotkey.Background = toggledColor;
+                } else {
+                    BlockhitChangeHotkey.ClearValue(BackgroundProperty);
+                }
+
+                if (playToggleSounds) {
+                    BackgroundBeep.Beep(blockHit ? 16000 : 8000, 1);
+                }
+            };
+
+            blockhitHotkeyButton.SelectHotkeyEvent += (sender, e) => {
+                BlockhitHotkeyText.Text = "[Press any key]";
+            };
+
+            //Panic button
             panicHotkeyButton = new HotkeyButton(Keys.Multiply);
             PanicButtonTextBlock.Text = $"Panic Button [{panicHotkeyButton.GetHotkey()}]";
             panicHotkeyButton.HotkeySetEvent += (sender, e) => {
@@ -267,26 +309,61 @@ namespace Autoclicker {
         }
 
         private void LMBAutoClick() {
+            #region init
+            Stopwatch sw = new Stopwatch();
+            double rampupProportion;
+            double baseDelay;
+            double miniDeviation;
+            int delay;
+
+            double deviation;
+            double totalMilliseconds = 0;
+            int clicks = 0;
+
             int carryover = 0;
+            #endregion
+
             while (true) {
                 if (lmbToggled) {
-                    double rampupProportion = ((lmbRampupDuration == 0) ? 1 : ((System.Math.Min((DateTime.Now - lastLmbToggle).TotalMilliseconds, lmbRampupDuration) / (float)lmbRampupDuration) * (1 - lmbRampupInitial) + lmbRampupInitial));
-                    double baseDelay = (1000f / (BiasedRandom.NextDouble(lmbBias) * (lmbMaxCps - lmbMinCps) + lmbMinCps)) - carryover;
-                    //double baseDelay = BiasedRandom.Range(1000f / lmbMaxCps, 1000f / lmbMinCps, -lmbBias);
+                    rampupProportion = ((lmbRampupDuration == 0) ? 1 : ((System.Math.Min((DateTime.Now - lastLmbToggle).TotalMilliseconds, lmbRampupDuration) / (float)lmbRampupDuration) * (1 - lmbRampupInitial) + lmbRampupInitial));
+                    baseDelay = (1000f / (BiasedRandom.NextDouble(lmbBias) * (lmbMaxCps - lmbMinCps) + lmbMinCps)) - carryover;
 
-                    int delay = (int)System.Math.Round((baseDelay / rampupProportion) + (rand.NextDouble() - 0.5) * lmbMiniDeviation);
+                    miniDeviation = (rand.NextDouble() - 0.5) * lmbMiniDeviation;
 
-                    DateTime start = DateTime.Now;
+                    delay = (int)System.Math.Round(((baseDelay + miniDeviation) / rampupProportion));
 
+                    if(clicks >= 10) {
+                        delay = delay - (int)System.Math.Round(totalMilliseconds / clicks);
+                    }
+                  
                     LeftMouseClick();
+
                     if (playClickSounds) {
                         BackgroundBeep.Beep(2000, 1);
                     }
 
-                    while ((DateTime.Now - start).TotalMilliseconds <= delay) {
-                        Thread.Sleep(1);
+                    if (blockHit && rand.NextDouble() < 0.92) {
+                        sw.Reset();
+                        sw.Start();
+                        Thread.Sleep(rand.Next(1, 4));
+                        RightMouseClick();
+                        sw.Stop();
+                        delay -= (int) sw.ElapsedMilliseconds;
                     }
-                    carryover = (int) (DateTime.Now - start).TotalMilliseconds - delay;
+
+                    sw.Reset();
+                    sw.Start();
+                    Thread.Sleep(delay);
+                    sw.Stop();
+
+                    deviation = sw.Elapsed.TotalMilliseconds - delay;
+
+                    if (clicks < normalizationClicks) {
+                        clicks++;
+                        totalMilliseconds += deviation;
+                    } 
+
+                    carryover = (int)sw.ElapsedMilliseconds - delay;
                 } else {
                     Thread.Sleep(1);
                 }
@@ -294,26 +371,53 @@ namespace Autoclicker {
         }
 
         private void RMBAutoClick() {
+            #region init
+            Stopwatch sw = new Stopwatch();
+            double rampupProportion;
+            double baseDelay;
+            double miniDeviation;
+            int delay;
+
+            double deviation;
+            double totalMilliseconds = 0;
+            int clicks = 0;
+
             int carryover = 0;
+            #endregion
+
+
             while (true) {
                 if (rmbToggled) {
-                    double rampupProportion = ((rmbRampupDuration == 0) ? 1 : ((System.Math.Min((DateTime.Now - lastRmbToggle).TotalMilliseconds, rmbRampupDuration) / (float)rmbRampupDuration) * (1 - rmbRampupInitial) + rmbRampupInitial));
-                    double baseDelay = (1000f / ((BiasedRandom.NextDouble(rmbBias)) * (rmbMaxCps - rmbMinCps) + rmbMinCps)) - carryover;
-                    //double baseDelay = BiasedRandom.Range(1000f / rmbMaxCps, 1000f / rmbMinCps, -rmbBias);
+                    rampupProportion = ((rmbRampupDuration == 0) ? 1 : ((System.Math.Min((DateTime.Now - lastRmbToggle).TotalMilliseconds, rmbRampupDuration) / (float)rmbRampupDuration) * (1 - rmbRampupInitial) + rmbRampupInitial));
+                    baseDelay = (1000f / (BiasedRandom.NextDouble(rmbBias) * (rmbMaxCps - rmbMinCps) + rmbMinCps)) - carryover;
 
-                    int delay = (int) System.Math.Round((baseDelay / rampupProportion) + (rand.NextDouble() - 0.5) * rmbMiniDeviation);
+                    miniDeviation = (rand.NextDouble() - 0.5) * rmbMiniDeviation;
 
-                    DateTime start = DateTime.Now;
+                    delay = (int)System.Math.Round(((baseDelay + miniDeviation) / rampupProportion));
+
+                    if (clicks >= 10) {
+                        delay = delay - (int)System.Math.Round(totalMilliseconds / clicks);
+                    }
 
                     RightMouseClick();
+
                     if (playClickSounds) {
-                        BackgroundBeep.Beep(2000, 1);
+                        BackgroundBeep.Beep(1000, 1);
                     }
 
-                    while ((DateTime.Now - start).TotalMilliseconds <= delay) {
-                        Thread.Sleep(1);
+                    sw.Reset();
+                    sw.Start();
+                    Thread.Sleep(delay);
+                    sw.Stop();
+
+                    deviation = sw.Elapsed.TotalMilliseconds - delay;
+
+                    if (clicks < normalizationClicks) {
+                        clicks++;
+                        totalMilliseconds += deviation;
                     }
-                    carryover = (int) (DateTime.Now - start).TotalMilliseconds - delay;
+
+                    carryover = (int)sw.ElapsedMilliseconds - delay;
                 } else {
                     Thread.Sleep(1);
                 }
@@ -374,7 +478,7 @@ namespace Autoclicker {
             UpdateRMBVisuals();
 
             if (playToggleSounds) {
-                BackgroundBeep.Beep(lmbToggled ? 16000 : 10000, 1);
+                BackgroundBeep.Beep(rmbToggled ? 16000 : 10000, 1);
             }
         }
 
@@ -412,6 +516,10 @@ namespace Autoclicker {
 
         private void RMB_ChangeHotkey_Click(object sender, RoutedEventArgs e) {
             rmbHotkeyButton.OnClick();
+        }
+
+        private void BlockhitChangeHotkey_Click(object sender, RoutedEventArgs e) {
+            blockhitHotkeyButton.OnClick();
         }
 
         private void PanicButton_Click(object sender, RoutedEventArgs e) {
@@ -691,6 +799,7 @@ namespace Autoclicker {
         private void ImportProfileButton_Click(object sender, RoutedEventArgs e) {
             ImportProfile(ImportProfileTextbox.Text);
         }
+
         #region Checkbox Stuff
         private void BothSidesCanBeActive_Checked(object sender, RoutedEventArgs e) {
             canBothBeActive = true;
@@ -731,9 +840,12 @@ namespace Autoclicker {
         private void PlayClickSounds_Unchecked(object sender, RoutedEventArgs e) {
             playClickSounds = false;
         }
+
         #endregion
 
         #endregion
+
+        #region Import/Export
 
         private void LoadProfile(AutoclickerProfile profile) {
             LMBMinCpsTextBox.Text = profile.lmbMinCps.ToString();
@@ -790,7 +902,14 @@ namespace Autoclicker {
         }
 
         private string ExportProfile(AutoclickerProfile profile) {
-            return JsonConvert.SerializeObject(profile);
+            try {
+                string raw = JsonConvert.SerializeObject(profile);
+                return raw;
+            } catch (Exception e) {
+                System.Windows.MessageBox.Show($"Error: {e.Message}");
+                return string.Empty;
+            }
+            
         }
 
         private void ImportProfile(string raw) {
@@ -801,6 +920,7 @@ namespace Autoclicker {
                 System.Windows.MessageBox.Show($"Error: {e.Message}");
             }
         }
+        #endregion
     }
 
     public struct AutoclickerProfile {
@@ -810,5 +930,36 @@ namespace Autoclicker {
         public bool canBothBeActive, clicksDisablesOtherSide, numbersDisablesAutoclicker, playToggleSounds, playClickSounds;
         public float lmbBias, rmbBias;
         public float lmbMiniDeviation, rmbMiniDeviation;
+    }
+
+    internal static class ConsoleAllocator {
+        [DllImport(@"kernel32.dll", SetLastError = true)]
+        static extern bool AllocConsole();
+
+        [DllImport(@"kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
+        [DllImport(@"user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        const int SwHide = 0;
+        const int SwShow = 5;
+
+
+        public static void ShowConsoleWindow() {
+            var handle = GetConsoleWindow();
+
+            if (handle == IntPtr.Zero) {
+                AllocConsole();
+            } else {
+                ShowWindow(handle, SwShow);
+            }
+        }
+
+        public static void HideConsoleWindow() {
+            var handle = GetConsoleWindow();
+
+            ShowWindow(handle, SwHide);
+        }
     }
 }

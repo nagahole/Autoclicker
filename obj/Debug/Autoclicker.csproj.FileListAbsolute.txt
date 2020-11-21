@@ -15,7 +15,6 @@ C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.ex
 C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.pdb
 C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\bin\Debug\Gma.System.MouseKeyHook.dll
 C:\Users\Rick Wang\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CopyComplete
-C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csprojAssemblyReference.cache
 C:\Code\Autoclicker\Autoclicker\obj\Debug\MainWindow.g.cs
 C:\Code\Autoclicker\Autoclicker\obj\Debug\App.g.cs
 C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker_MarkupCompile.cache
@@ -34,3 +33,4 @@ C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CoreCompileInputs.c
 C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CopyComplete
 C:\Code\Autoclicker\Autoclicker\bin\Debug\Newtonsoft.Json.dll
 C:\Code\Autoclicker\Autoclicker\bin\Debug\Newtonsoft.Json.xml
+C:\Code\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csprojAssemblyReference.cache
